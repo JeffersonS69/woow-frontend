@@ -1,46 +1,79 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Woow Frontend
 
-## Available Scripts
+Aplicación frontend desarrollada en React para la plataforma Woow. Permite la gestión de usuarios, autenticación, y navegación entre diferentes roles (admin y usuario). Utiliza TailwindCSS para estilos y consume una API REST construida en Node.js con PostgreSQL.
 
-In the project directory, you can run:
+## Prerrequisitos
 
-### `npm start`
+- **Node.js** >= 18.x
+- **npm** >= 9.x (o yarn)
+- **React 19**
+- **TypeScript**
+- **React Router** (navegación)
+- **Axios** (llamadas HTTP)
+- **CSS (TailwindCSS)**
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Instalación
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+1. Clona el repositorio:
+	 ```bash
+	 git clone https://github.com/JeffersonS69/woow-frontend.git
+	 cd woow-frontend
+	 ```
+2. Instala las dependencias:
+	 ```bash
+	 npm install
+	 # o
+	 yarn install
+	 ```
+3. Configura las variables de entorno:
+	 - Crea un archivo `.env` en la raíz si es necesario.
+	 - Ejemplo:
+		 ```env
+		 REACT_APP_API_URL_BACKEND=http://localhost:3001
+		 ```
 
-### `npm test`
+## Ejecución del proyecto
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Frontend
+```bash
+npm start
+# o
 
-### `npm run build`
+```
+La app estará disponible en [http://localhost:3000](http://localhost:3000)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Endpoints disponibles (ejemplos)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+El frontend consume los siguientes endpoints del backend:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- **Autenticación:**
+	- `POST /api/auth/login`
+		```json
+		{
+			"email": "admin@woow.com",
+			"password": "admin123"
+		}
+		```
+	- `POST /api/auth/register`
+		```json
+		{
+			"email": "user@woow.com",
+			"password": "user123",
+			"name": "Usuario"
+		}
+		```
+- **Usuarios:**
+	- `GET /api/users` (Para administradores)
+	- `GET /api/users/:id`
 
-### `npm run eject`
+## Credenciales de prueba
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- **Admin:**
+	- Email: `admin@woow.com`
+	- Contraseña: `admin123`
+- **Usuario normal:**
+	- Email: `user@woow.com`
+	- Contraseña: `user123`
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
