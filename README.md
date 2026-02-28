@@ -1,7 +1,7 @@
 
 # Woow Frontend
 
-Aplicación frontend desarrollada en React para la plataforma Woow. Permite la gestión de usuarios, autenticación, y navegación entre diferentes roles (admin y usuario). Utiliza TailwindCSS para estilos y consume una API REST construida en Node.js con PostgreSQL.
+Aplicación frontend desarrollada en React + TypeScript. Permite la gestión de usuarios, autenticación, y navegación entre diferentes roles (admin y usuario). Utiliza TailwindCSS para estilos y consume una API REST construida en Node.js con PostgreSQL.
 
 ## Prerrequisitos
 
