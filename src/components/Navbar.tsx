@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { useMemo, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function Navbar() {
   const { user, isAdmin, logout } = useAuth();
@@ -9,17 +9,19 @@ export default function Navbar() {
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate("/login");
   };
 
-  const initials = user?.name
-    ? user.name
-        .split(' ')
-        .map((n) => n[0])
-        .join('')
-        .toUpperCase()
-        .slice(0, 2)
-    : '?';
+  const initials = useMemo(() => {
+    if (!user?.name) return "?";
+
+    return user.name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  }, [user?.name]);
 
   return (
     <nav className="bg-white border-b border-gray-200">
@@ -27,7 +29,9 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/profile" className="flex items-center gap-2">
-            <span className="text-2xl font-black text-indigo-600 tracking-tight">Woow</span>
+            <span className="text-2xl font-black text-indigo-600 tracking-tight">
+              Woow
+            </span>
           </Link>
 
           {/* Desktop menu */}
@@ -54,12 +58,14 @@ export default function Navbar() {
                   {initials}
                 </div>
                 <div className="text-sm">
-                  <p className="font-medium text-gray-900 leading-tight">{user?.name}</p>
+                  <p className="font-medium text-gray-900 leading-tight">
+                    {user?.name}
+                  </p>
                   <span
                     className={`text-xs font-medium px-1.5 py-0.5 rounded-full ${
                       isAdmin
-                        ? 'bg-purple-100 text-purple-700'
-                        : 'bg-blue-100 text-blue-700'
+                        ? "bg-purple-100 text-purple-700"
+                        : "bg-blue-100 text-blue-700"
                     }`}
                   >
                     {user?.role}
@@ -81,11 +87,26 @@ export default function Navbar() {
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Toggle menu"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
               {menuOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
               ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
               )}
             </svg>
           </button>
@@ -99,7 +120,9 @@ export default function Navbar() {
                 {initials}
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-900">{user?.name}</p>
+                <p className="text-sm font-medium text-gray-900">
+                  {user?.name}
+                </p>
                 <p className="text-xs text-gray-500">{user?.email}</p>
               </div>
             </div>
