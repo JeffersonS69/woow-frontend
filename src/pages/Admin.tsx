@@ -5,7 +5,7 @@ import Navbar from '../components/Navbar';
 
 const LIMIT = 10;
 
-function RoleBadge({ role }: { role: User['role'] }) {
+function RoleBadge({ role }: Readonly<{ role: User['role'] }>) {
   return (
     <span
       className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
@@ -150,56 +150,60 @@ export default function Admin() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
-                {loading ? (
-                  [...Array(5)].map((_, i) => <SkeletonRow key={i} />)
-                ) : paginated.length > 0 ? (
-                  paginated.map((user, idx) => (
-                    <tr key={user.id} className="hover:bg-gray-50 transition-colors">
-                      <td className="px-6 py-4 text-sm text-gray-400">
-                        {(page - 1) * LIMIT + idx + 1}
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 text-xs font-bold shrink-0">
-                            {user.name
-                              .split(' ')
-                              .map((n) => n[0])
-                              .join('')
-                              .toUpperCase()
-                              .slice(0, 2)}
+                {(() => {
+                  if (loading) {
+                    return [...Array(5)].map((_, i) => <SkeletonRow key={i} />);
+                  }
+                  if (paginated.length > 0) {
+                    return paginated.map((user, idx) => (
+                      <tr key={user.id} className="hover:bg-gray-50 transition-colors">
+                        <td className="px-6 py-4 text-sm text-gray-400">
+                          {(page - 1) * LIMIT + idx + 1}
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 text-xs font-bold shrink-0">
+                              {user.name
+                                .split(' ')
+                                .map((n) => n[0])
+                                .join('')
+                                .toUpperCase()
+                                .slice(0, 2)}
+                            </div>
+                            <span className="text-sm font-medium text-gray-900">{user.name}</span>
                           </div>
-                          <span className="text-sm font-medium text-gray-900">{user.name}</span>
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-600">{user.email}</td>
+                        <td className="px-6 py-4">
+                          <RoleBadge role={user.role} />
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-500">
+                          {formatDate(user.createdAt)}
+                        </td>
+                      </tr>
+                    ));
+                  }
+                  return (
+                    <tr>
+                      <td colSpan={5} className="px-6 py-16 text-center">
+                        <div className="flex flex-col items-center gap-3 text-gray-400">
+                          <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                          </svg>
+                          <p className="text-sm font-medium">No se encontraron usuarios</p>
+                          {search && (
+                            <button
+                              onClick={() => setSearch('')}
+                              className="text-xs text-indigo-600 hover:underline"
+                            >
+                              Limpiar búsqueda
+                            </button>
+                          )}
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-600">{user.email}</td>
-                      <td className="px-6 py-4">
-                        <RoleBadge role={user.role} />
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-500">
-                        {formatDate(user.createdAt)}
-                      </td>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan={5} className="px-6 py-16 text-center">
-                      <div className="flex flex-col items-center gap-3 text-gray-400">
-                        <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                        <p className="text-sm font-medium">No se encontraron usuarios</p>
-                        {search && (
-                          <button
-                            onClick={() => setSearch('')}
-                            className="text-xs text-indigo-600 hover:underline"
-                          >
-                            Limpiar búsqueda
-                          </button>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                )}
+                  );
+                })()}
               </tbody>
             </table>
           </div>
