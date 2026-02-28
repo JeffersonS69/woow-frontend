@@ -1,7 +1,5 @@
+import { Navigate } from 'react-router-dom';
+
 export default function Home() {
-  return (
-    <main className="flex min-h-screen items-center justify-center">
-      <h1 className="text-2xl font-bold">Woow Frontend</h1>
-    </main>
-  );
+  return <Navigate to="/profile" replace />;
 }
